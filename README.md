@@ -1,29 +1,34 @@
 ﻿# Integrate Stripe with Angular
 
  Here's a guide covers how to integrate Stripe Checkout with an Angular application using Node.js APIs:
- Prerequisites
+ 
+  Step 1: Backend Setup
 
-    Stripe Account: Ensure you have a Stripe account to obtain the publishable and secret keys.
-    Node.js: Install Node.js and npm.
-    Angular CLI: Install Angular CLI.
+    1. Obtain Stripe Keys
 
-  Step 1: Set Up Stripe on the Stripe Dashboard
+      Go to Stripe.com and copy your Publishable Key & Secret Key.
 
-    Go to stripe.com and log in to your account.
-    Navigate to the "Developers" section and obtain your publishable and secret keys.
-    Create products and price IDs in the "Product Catalog."
+    2. Create a Product
 
-  Step 2: Set Up the Node.js API
+      Ensure you have a product in your Stripe dashboard and copy its PriceId.
 
-    1. Initialize the Node.js Project:
-      mkdir stripe-api
-      cd stripe-api
-      npm init -y
+    3. Project Initialization
 
-    2. Install Dependencies:
-      npm install express stripe cors
+      In the project root folder, create a folder named api for the backend.
+      Navigate to the api folder and initialize the project:
+      
+      npm init
 
-    3. Project Structure:
+    4. Install Required Packages
+
+      Install the necessary packages:
+
+      npm install stripe express cors --save
+
+      Verify the installation in package.json.
+
+    5. Project Structure
+
       stripe-api
       ├── config
       │   └── config.js
@@ -36,54 +41,87 @@
       ├── index.js
       └── package.json
 
-    4. Config File (config/config.js)
+    6. Config File (config/config.js)
 
-    5. Stripe Service (services/stripe.service.js)
+    7. Stripe Service (services/stripe.service.js)
 
-    6. Stripe Controller (controllers/stripe.controller.js)
+    8. Stripe Controller (controllers/stripe.controller.js)
 
-    7. Routes (routes/app.routes.js)
+    9. Routes (routes/app.routes.js)
     
-    8. Server Setup (index.js)
+    10. Server Setup (index.js)
 
-  Step 3: Set Up the Angular Application
+    11. Use nodemon js to launch the backend; Test the backend via Postman by sending a POST request. In the body, the priceId information should be passed. You should get the id in the response.
 
-    1. Initialize the Angular Project:
-      ng new stripe-checkout --routing
-      cd stripe-checkout
+  Step 2: Frontend Setup
+
+    1. Project Initialization
+    
+      In the project root folder, create a folder named web for the frontend.
+      Navigate to the web folder and start a new Angular project:
+      
+      ng new stripe-checkout
+      
+      Choose Yes when asked "Would you like to add Angular routing?" Packages should be successfully installed.
+
+    2. Install Stripe Package
+    
+      Navigate to the stripe-checkout directory and install the Stripe.js package:
+      
       npm install @stripe/stripe-js
+      
+      Add the Stripe.js script to the index.html file in the <head> section:
 
-    2. Environment Configuration:
-      export const environment = {
-        production: false,
-        apiUrl: 'http://localhost:4000',
-        priceId: 'your-price-id',
-        stripeKey:
-          'your-publishable-key',
-      };
+      <script src="https://js.stripe.com/v3" async></script>
 
-    3. Stripe Service (src/app/services/stripe.service.ts)
+    3. Environment Setup
+    
+      Create a new folder under src named environments.
+      Add environment.prod.ts and environment.ts in the environments folder.
 
-    4. Create Components for Payment and Success Pages
+    4. Stripe Service (src/app/services/stripe.service.ts)
 
-    5. Payment Page Template (src/app/pages/payment-page/payment-page.component.html)
+    5. Pages Setup
 
-    6. Payment Page Component (src/app/pages/payment-page/payment-page.component.ts)
+      Create a folder under src/app named pages.
+      
+      Navigate to the pages folder in the terminal:
 
-    7. Success Page Template (src/app/pages/success-page/success-page.component.html)
+      cd src/app/pages
 
-    8. Routing Configuration (src/app/app-routing.module.ts)
+      Generate new components:
 
-  Step 4: Run the Applications
+      ng generate component payment-page
+      ng generate component success-page
 
-    1. Start the Node.js Server:
-      cd stripe-api
-      node index.js
+      Customize the HTML & CSS for these pages as desired.
 
-    2. Start the Angular Application
-      cd stripe-checkout
-      ng serve
+    6. Modify Components
 
-    3. Access the Application:
-      Open http://localhost:4200 in your browser.
-      Navigate through the payment process and test the integration.
+      Update payment-page.component.ts with necessary Stripe logic.
+
+    7. Routing
+
+      Modify app-routing.module.ts to include routes for the payment and success pages.
+
+    8. Proxy Configuration
+
+      Create a file named proxy.conf.json under web/stripe-checkout.
+
+    8. Modify package.json
+
+      Update the start script in package.json under web/stripe-checkout:
+
+      "start": "ng serve --proxy-config proxy.conf.json"
+
+    9. Prepare for Testing
+
+      Remove any default code in app.component.html under src/app, keeping only <router-outlet>.
+
+    10. Run Frontend
+
+      In the terminal, run the frontend:
+
+      npm start
+
+      Open the browser and navigate to http://localhost:4200 to test the functionality.
