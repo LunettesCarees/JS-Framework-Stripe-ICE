@@ -29,9 +29,9 @@
 
     5. Project Structure
 
-      stripe-api
+      stripe/api
       ├── config
-      │   └── config.js
+      │   └── app.config.js
       ├── controllers
       │   └── stripe.controller.js
       ├── routes
